@@ -9,8 +9,8 @@
 :root {
   /* Backgrounds & Neutrals */
   --clr-bg:          #0d0d12;
-  --clr-bg-2:        #131219;
-  --clr-bg-3:        #1a1922;
+  --clr-bg-2:        #0d0d12;
+  --clr-bg-3:        #131218;
   --clr-surface:     #171620;
   --clr-surface-card: rgba(26, 25, 34, 0.7);
   --clr-border:      rgba(255, 255, 255, 0.09);

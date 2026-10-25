@@ -1,6 +1,6 @@
 /* ===== Footer (Rich Crimson & Rose Theme) ===== */
 .footer {
-  background: var(--clr-bg-2);
+  background: var(--clr-bg);
   position: relative;
 }
 
@@ -17,7 +17,7 @@
 
 .footer__body {
   padding-block: var(--sp-16) var(--sp-10);
-  background: var(--clr-bg-2);
+  background: var(--clr-bg);
   position: relative;
 }
 

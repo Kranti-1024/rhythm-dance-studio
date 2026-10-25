@@ -1,6 +1,5 @@
-/* ===== Schedule (Rich Crimson & Rose Theme) ===== */
 .schedule {
-  background: var(--clr-bg-2);
+  background: var(--clr-bg);
 }
 
 .sched-controls {

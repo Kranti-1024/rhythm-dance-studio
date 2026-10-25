@@ -70,7 +70,7 @@ export default function Footer({ onOpenBooking }) {
       {/* Wave Transition */}
       <div className="footer__wave" aria-hidden="true">
         <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <path d="M0 0L48 8C96 16 192 32 288 37.3C384 43 480 37 576 32C672 27 768 21 864 24C960 27 1056 37 1152 42.7C1248 48 1344 48 1392 48L1440 48V60H0V0Z" fill="#131219"/>
+          <path d="M0 0L48 8C96 16 192 32 288 37.3C384 43 480 37 576 32C672 27 768 21 864 24C960 27 1056 37 1152 42.7C1248 48 1344 48 1392 48L1440 48V60H0V0Z" fill="#0d0d12"/>
         </svg>
       </div>
 

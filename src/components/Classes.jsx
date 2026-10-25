@@ -126,10 +126,10 @@ export default function Classes({ onOpenBooking }) {
         </div>
 
         <div className="classes__grid">
-          {filteredClasses.map(({ id, title, tag, tagVariant, intensity, duration, image, description, emoji }, i) => (
+          {filteredClasses.map(({ id, title, tag, tagVariant, intensity, duration, image, description, emoji }) => (
             <article
               key={id}
-              className={`class-card fade-up fade-up-delay-${(i % 3) + 1}`}
+              className="class-card"
               aria-label={`${title} dance class`}
             >
               {/* Image */}

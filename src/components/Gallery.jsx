@@ -139,11 +139,11 @@ export default function Gallery() {
 
         {/* Masonry Grid */}
         <div className="gallery__grid" role="list" aria-label="Gallery images">
-          {filteredItems.map((item, i) => (
+          {filteredItems.map((item) => (
             <button
               type="button"
               key={item.id}
-              className={`gallery__item gallery__item--${item.size} fade-up fade-up-delay-${(i % 4) + 1}`}
+              className={`gallery__item gallery__item--${item.size}`}
               onClick={() => openLightbox(item)}
               aria-label={`View photo: ${item.caption}`}
               role="listitem"

@@ -1,6 +1,6 @@
 /* ===== Contact (Rich Crimson Theme) ===== */
 .contact {
-  background: var(--clr-bg-2);
+  background: var(--clr-bg);
   position: relative;
   overflow: hidden;
 }

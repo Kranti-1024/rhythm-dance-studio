@@ -43,13 +43,25 @@ function App() {
           }
         })
       },
-      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
     )
 
-    const elements = document.querySelectorAll('.fade-up')
-    elements.forEach((el) => observer.observe(el))
+    const observeAll = () => {
+      document.querySelectorAll('.fade-up:not(.visible)').forEach((el) => observer.observe(el))
+    }
 
-    return () => observer.disconnect()
+    observeAll()
+
+    // Auto-observe any dynamically mounted elements
+    const mutationObserver = new MutationObserver(() => {
+      observeAll()
+    })
+    mutationObserver.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      observer.disconnect()
+      mutationObserver.disconnect()
+    }
   }, [])
 
   return (

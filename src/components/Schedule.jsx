@@ -180,7 +180,7 @@ export default function Schedule({ onSelectSlot }) {
 
         {/* ================= DAY-BY-DAY VIEW (MOBILE OPTIMIZED) ================= */}
         {viewMode === 'day' && (
-          <div className="sched-day-view fade-up">
+          <div className="sched-day-view">
             {/* Day Selector Tabs */}
             <div className="sched-day-tabs" role="tablist" aria-label="Days of the week">
               {days.map((day) => (
@@ -248,7 +248,7 @@ export default function Schedule({ onSelectSlot }) {
         {/* ================= FULL TABLE VIEW (DESKTOP) ================= */}
         {viewMode === 'table' && (
           <div
-            className="sched-wrap fade-up"
+            className="sched-wrap"
             role="region"
             aria-label="Weekly schedule matrix"
             tabIndex={0}
