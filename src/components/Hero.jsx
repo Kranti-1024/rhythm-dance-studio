@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react'
-import { ChevronDown, Sparkles } from 'lucide-react'
+import { useRef } from 'react'
+import { ChevronDown, Sparkles, Star, ArrowRight } from 'lucide-react'
 import './Hero.css'
 
-export default function Hero() {
+export default function Hero({ onOpenBooking }) {
   const headlineRef = useRef(null)
 
   const scrollToSection = (id) => {
@@ -19,18 +19,11 @@ export default function Hero() {
         <div className="hero__bg-gradient" />
       </div>
 
-      {/* Animated particles */}
-      <div className="hero__particles" aria-hidden="true">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <span key={i} className="hero__particle" style={{ '--i': i }} />
-        ))}
-      </div>
-
       {/* Content */}
       <div className="container hero__content">
         <div className="hero__badge fade-up">
           <Sparkles size={14} />
-          <span>Welcome to Rhythm Vibes</span>
+          <span>Premiere Dance Academy & Community</span>
         </div>
 
         <h1 className="hero__headline fade-up fade-up-delay-1" ref={headlineRef}>
@@ -40,35 +33,49 @@ export default function Hero() {
         </h1>
 
         <p className="hero__subtitle fade-up fade-up-delay-2">
-          Discover your passion, build confidence, and express yourself through dance.
+          Discover your passion, build confidence, and express yourself through world-class dance.
           <br className="hero__br" />
-          Classes for all ages and skill levels — beginners warmly welcome.
+          From Bollywood beats to contemporary flow — beginners warmly welcomed into every batch.
         </p>
+
+        {/* Social Proof Pill */}
+        <div className="hero__social-proof fade-up fade-up-delay-2">
+          <div className="hero__stars">
+            {[1, 2, 3, 4, 5].map((s) => (
+              <Star key={s} size={14} fill="#f59e0b" color="#f59e0b" />
+            ))}
+          </div>
+          <span>Rated 4.9/5 by 500+ Dancers • 100% Free First Trial Class</span>
+        </div>
 
         <div className="hero__actions fade-up fade-up-delay-3">
           <button
+            type="button"
             className="btn btn-primary btn-lg"
+            onClick={() => onOpenBooking && onOpenBooking()}
+            aria-label="Book your free dance trial class"
+          >
+            <Sparkles size={18} />
+            <span>Book Free Trial Pass</span>
+          </button>
+          <button
+            type="button"
+            className="btn btn-outline btn-lg"
             onClick={() => scrollToSection('#classes')}
             aria-label="Explore our dance classes"
           >
-            Explore Classes
-          </button>
-          <button
-            className="btn btn-outline btn-lg"
-            onClick={() => scrollToSection('#contact')}
-            aria-label="Send an enquiry"
-          >
-            Enquire Now
+            <span>Explore Classes</span>
+            <ArrowRight size={17} />
           </button>
         </div>
 
         {/* Stats row */}
         <div className="hero__stats fade-up fade-up-delay-4" aria-label="Studio highlights">
           {[
-            { value: '6+', label: 'Dance Styles' },
-            { value: '500+', label: 'Happy Students' },
+            { value: '6+', label: 'Dance Disciplines' },
+            { value: '500+', label: 'Active Students' },
             { value: '8+', label: 'Years of Excellence' },
-            { value: '50+', label: 'Shows Performed' },
+            { value: '50+', label: 'Stage Showcases' },
           ].map(({ value, label }) => (
             <div key={label} className="hero__stat">
               <span className="hero__stat-value gradient-text">{value}</span>
@@ -80,11 +87,12 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <button
+        type="button"
         className="hero__scroll"
         onClick={() => scrollToSection('#about')}
         aria-label="Scroll to About section"
       >
-        <ChevronDown size={24} />
+        <ChevronDown size={22} />
       </button>
     </section>
   )

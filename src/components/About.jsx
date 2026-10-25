@@ -1,13 +1,13 @@
-import { Award, Heart, Users } from 'lucide-react'
+import { Award, Heart, Users, Sparkles } from 'lucide-react'
 import './About.css'
 
 const highlights = [
-  { icon: <Users size={20} />, label: '500+ Students' },
-  { icon: <Award size={20} />, label: '8+ Years' },
-  { icon: <Heart size={20} />, label: 'All Skill Levels' },
+  { icon: <Users size={19} />, label: '500+ Dancers Trained' },
+  { icon: <Award size={19} />, label: '8+ Years of Excellence' },
+  { icon: <Heart size={19} />, label: 'All Skill Levels Welcome' },
 ]
 
-export default function About() {
+export default function About({ onOpenBooking }) {
   const scrollToSection = (id) => {
     const el = document.querySelector(id)
     if (el) el.scrollIntoView({ behavior: 'smooth' })
@@ -22,19 +22,19 @@ export default function About() {
             <div className="about__image-wrap">
               <img
                 src="/images/about.jpg"
-                alt="Students practicing dance in the Rhythm Vibes studio"
+                alt="Students practicing choreography inside Rhythm Vibes studio"
                 className="about__img"
                 loading="lazy"
               />
-              {/* Floating card */}
-              <div className="about__float-card" aria-hidden="true">
-                <span className="about__float-icon">🎵</span>
+              {/* Floating credential badge */}
+              <div className="about__float-card" aria-label="Studio achievement">
+                <span className="about__float-icon">🏆</span>
                 <div>
-                  <strong>Demo Studio</strong>
-                  <p>All details are fictional</p>
+                  <strong>Premier Dance Academy</strong>
+                  <p>Certified choreographers & mentors</p>
                 </div>
               </div>
-              {/* Decorative element */}
+              {/* Decorative glows */}
               <div className="about__deco about__deco--1" aria-hidden="true" />
               <div className="about__deco about__deco--2" aria-hidden="true" />
             </div>
@@ -43,7 +43,9 @@ export default function About() {
           {/* Text column */}
           <div className="about__text-col">
             <div className="about__header fade-up">
-              <span className="section-label">Our Story</span>
+              <span className="section-label">
+                <Sparkles size={13} /> Our Journey & Philosophy
+              </span>
               <h2 className="about__title">
                 Where Passion Meets
                 <span className="gradient-text"> Performance</span>
@@ -52,16 +54,11 @@ export default function About() {
             </div>
 
             <p className="about__body fade-up fade-up-delay-1">
-              Founded on the belief that dance is for everyone, <strong>Rhythm Vibes Dance Studio</strong> has been
-              a vibrant creative space where students of all ages discover their love for movement. Whether you're
-              stepping onto the dance floor for the very first time or refining your craft as an experienced performer,
-              our doors are open for you.
+              Founded on the belief that dance is for everyone, <strong>Rhythm Vibes Dance Studio</strong> is a vibrant, supportive creative space where students of all ages discover the confidence and pure joy of movement. Whether you are stepping onto a dance floor for the very first time or perfecting complex stage choreography, you will find a home here.
             </p>
 
             <p className="about__body fade-up fade-up-delay-2">
-              Our team of passionate instructors brings expertise across multiple styles — from the high-energy beats
-              of Bollywood and Hip-Hop to the elegant flow of Contemporary dance. We believe in a supportive, inclusive
-              environment where confidence grows alongside skill.
+              Our team of award-winning choreographers brings rich stage experience across commercial Bollywood, urban street styles, lyrical contemporary, and dance fitness. We emphasize musicality, healthy body mechanics, and a culture where every small milestone is celebrated.
             </p>
 
             {/* Highlights */}
@@ -74,13 +71,22 @@ export default function About() {
               ))}
             </div>
 
-            <div className="fade-up fade-up-delay-4">
+            <div className="about__actions fade-up fade-up-delay-4">
               <button
+                type="button"
                 className="btn btn-primary btn-lg"
+                onClick={() => onOpenBooking && onOpenBooking()}
+                aria-label="Book a free dance trial"
+              >
+                <Sparkles size={16} /> Book Free Trial Pass
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline btn-lg"
                 onClick={() => scrollToSection('#classes')}
                 aria-label="View our dance classes"
               >
-                View Our Classes
+                Explore Classes
               </button>
             </div>
           </div>

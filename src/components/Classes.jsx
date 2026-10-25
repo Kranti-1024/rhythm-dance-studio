@@ -1,5 +1,8 @@
-import { ArrowRight } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowRight, Sparkles, Clock, Flame } from 'lucide-react'
 import './Classes.css'
+
+const categories = ['All', 'High Energy', 'Flow & Expression', 'Kids & Family', 'Fitness']
 
 const classes = [
   {
@@ -7,66 +10,91 @@ const classes = [
     title: 'Bollywood Dance',
     tag: 'All Levels',
     tagVariant: '',
+    category: 'High Energy',
+    intensity: 'High Energy 🔥🔥',
+    duration: '60 min',
     image: '/images/bollywood.jpg',
     description:
-      'Dive into the vibrant world of Indian cinema with high-energy choreography, expressive gestures, and colourful costumes. Perfect for festive occasions and pure joy.',
+      'Immerse in festive rhythms, high-energy hooks, and expressive performance techniques. Perfect for building stage presence, stamina, and pure joy.',
     emoji: '💃',
   },
   {
     id: 'hiphop',
-    title: 'Hip-Hop',
+    title: 'Hip-Hop & Street Styles',
     tag: 'Beginner–Advanced',
     tagVariant: 'tag-pink',
+    category: 'High Energy',
+    intensity: 'Intense 🔥🔥🔥',
+    duration: '75 min',
     image: '/images/hiphop.jpg',
     description:
-      'From popping and locking to freestyle flows, develop your street style and rhythm in a high-energy environment that celebrates individuality and expression.',
+      'Master popping, locking, breaking basics, and urban choreography. Develop your personal style, swag, and musicality with our national battle finalists.',
     emoji: '🎤',
   },
   {
     id: 'contemporary',
-    title: 'Contemporary',
+    title: 'Contemporary Flow',
     tag: 'All Levels',
     tagVariant: '',
+    category: 'Flow & Expression',
+    intensity: 'Moderate 🔥',
+    duration: '60 min',
     image: '/images/contemporary.jpg',
     description:
-      'Explore fluid movement, floor work, and emotional storytelling through contemporary technique. Build core strength, flexibility, and artistic depth.',
+      'Explore fluid floorwork, balance, and lyrical storytelling. Build core stability, flexibility, and expressive emotional depth through contemporary technique.',
     emoji: '🌊',
   },
   {
     id: 'kids',
-    title: 'Kids Dance',
+    title: 'Kids Dance Academy',
     tag: 'Ages 4–12',
     tagVariant: 'tag-pink',
+    category: 'Kids & Family',
+    intensity: 'Fun & Playful ⭐',
+    duration: '60 min',
     image: '/images/kids.jpg',
     description:
-      "Fun, age-appropriate classes that nurture your child's creativity, coordination, and confidence through movement, music, and playful routines.",
+      "Nurture your child's rhythm, coordination, and social confidence through age-appropriate routines, creative movement games, and end-of-term stage showcases.",
     emoji: '⭐',
   },
   {
     id: 'wedding',
-    title: 'Wedding Choreography',
+    title: 'Wedding & Sangeet Choreography',
     tag: 'Couples & Groups',
     tagVariant: '',
+    category: 'Kids & Family',
+    intensity: 'Customized 💍',
+    duration: 'Custom',
     image: '/images/wedding.jpg',
     description:
-      'Make your big day unforgettable with personalised wedding choreography. We craft stunning first-dance routines and Sangeet performances for couples and families.',
+      'Make your big celebration unforgettable with personalized bride/groom first dances, sangeet medleys, and family performances. Complete with music editing.',
     emoji: '💍',
   },
   {
     id: 'fitness',
-    title: 'Dance Fitness',
+    title: 'Dance Fitness (Zumba / Cardio)',
     tag: 'All Fitness Levels',
     tagVariant: 'tag-pink',
+    category: 'Fitness',
+    intensity: 'Calorie Burner 🔥🔥🔥',
+    duration: '50 min',
     image: '/images/fitness.jpg',
     description:
-      'Burn calories, boost your mood, and get fit — all while dancing to upbeat music. The most fun workout you\'ll ever have, no prior dance experience needed.',
+      'Torch calories, boost endorphins, and tone your body while moving to pulse-pounding global beats. No prior dance background needed — just show up and sweat!',
     emoji: '🔥',
   },
 ]
 
-export default function Classes() {
-  const scrollToContact = () => {
-    const el = document.querySelector('#contact')
+export default function Classes({ onOpenBooking }) {
+  const [activeCategory, setActiveCategory] = useState('All')
+
+  const filteredClasses =
+    activeCategory === 'All'
+      ? classes
+      : classes.filter((c) => c.category === activeCategory)
+
+  const scrollToSchedule = () => {
+    const el = document.querySelector('#schedule')
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -74,15 +102,31 @@ export default function Classes() {
     <section id="classes" className="classes section" aria-label="Dance classes">
       <div className="container">
         <div className="section-header fade-up">
-          <span className="section-label">What We Offer</span>
+          <span className="section-label">
+            <Sparkles size={13} /> Disciplines & Batches
+          </span>
           <h2 className="section-title">Our Dance Classes</h2>
           <p className="section-subtitle">
-            From Bollywood beats to contemporary movement — find your style and start your journey today.
+            From high-octane Bollywood and street cyphers to fluid contemporary movement — find your rhythm and begin with a free trial.
           </p>
+
+          {/* Filter Pills */}
+          <div className="classes__filter-bar">
+            {categories.map((cat) => (
+              <button
+                type="button"
+                key={cat}
+                className={`classes__filter-btn ${activeCategory === cat ? 'classes__filter-btn--active' : ''}`}
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="classes__grid">
-          {classes.map(({ id, title, tag, tagVariant, image, description, emoji }, i) => (
+          {filteredClasses.map(({ id, title, tag, tagVariant, intensity, duration, image, description, emoji }, i) => (
             <article
               key={id}
               className={`class-card fade-up fade-up-delay-${(i % 3) + 1}`}
@@ -97,21 +141,41 @@ export default function Classes() {
                   loading="lazy"
                 />
                 <div className="class-card__image-overlay" />
-                <span className="class-card__emoji" aria-hidden="true">{emoji}</span>
+                <span className="class-card__emoji" aria-hidden="true">
+                  {emoji}
+                </span>
+                <span className="class-card__duration-badge">
+                  <Clock size={12} /> {duration}
+                </span>
               </div>
 
               {/* Body */}
               <div className="class-card__body">
-                <span className={`tag ${tagVariant}`}>{tag}</span>
+                <div className="class-card__tags">
+                  <span className={`tag ${tagVariant}`}>{tag}</span>
+                  <span className="class-card__intensity">{intensity}</span>
+                </div>
+
                 <h3 className="class-card__title">{title}</h3>
                 <p className="class-card__desc">{description}</p>
-                <button
-                  className="btn btn-primary class-card__btn"
-                  onClick={scrollToContact}
-                  aria-label={`Enquire about ${title} classes`}
-                >
-                  Enquire Now <ArrowRight size={16} />
-                </button>
+
+                <div className="class-card__actions">
+                  <button
+                    type="button"
+                    className="btn btn-primary class-card__btn"
+                    onClick={() => onOpenBooking && onOpenBooking(title)}
+                    aria-label={`Book free trial for ${title}`}
+                  >
+                    <Sparkles size={14} /> Book Free Trial
+                  </button>
+                  <button
+                    type="button"
+                    className="class-card__schedule-link"
+                    onClick={scrollToSchedule}
+                  >
+                    View Timings <ArrowRight size={14} />
+                  </button>
+                </div>
               </div>
             </article>
           ))}

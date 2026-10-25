@@ -3,14 +3,36 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
 import Classes from './components/Classes'
-import Schedule from './components/Schedule'
-import Gallery from './components/Gallery'
 import WhyChooseUs from './components/WhyChooseUs'
+import Instructors from './components/Instructors'
+import Schedule from './components/Schedule'
+import Pricing from './components/Pricing'
+import Gallery from './components/Gallery'
+import Testimonials from './components/Testimonials'
+import FAQ from './components/FAQ'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import FloatingBar from './components/FloatingBar'
+import BookingModal from './components/BookingModal'
 import './App.css'
 
 function App() {
+  const [bookingModalOpen, setBookingModalOpen] = useState(false)
+  const [bookingInitialClass, setBookingInitialClass] = useState('')
+  const [bookingInitialPlan, setBookingInitialPlan] = useState('')
+  const [bookingInitialDay, setBookingInitialDay] = useState('')
+
+  const handleOpenBooking = (className = '', planName = '', day = '') => {
+    setBookingInitialClass(className)
+    setBookingInitialPlan(planName)
+    setBookingInitialDay(day)
+    setBookingModalOpen(true)
+  }
+
+  const handleCloseBooking = () => {
+    setBookingModalOpen(false)
+  }
+
   useEffect(() => {
     // Intersection Observer for fade-up animations
     const observer = new IntersectionObserver(
@@ -21,7 +43,7 @@ function App() {
           }
         })
       },
-      { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     )
 
     const elements = document.querySelectorAll('.fade-up')
@@ -32,17 +54,38 @@ function App() {
 
   return (
     <div className="app">
-      <Navbar />
+      <Navbar onOpenBooking={() => handleOpenBooking()} />
+
       <main>
-        <Hero />
-        <About />
-        <Classes />
+        <Hero onOpenBooking={() => handleOpenBooking()} />
+        <About onOpenBooking={() => handleOpenBooking()} />
+        <Classes onOpenBooking={(style) => handleOpenBooking(style)} />
         <WhyChooseUs />
-        <Schedule />
+        <Instructors onSelectInstructor={(style) => handleOpenBooking(style)} />
+        <Schedule onSelectSlot={(style, day) => handleOpenBooking(style, '', day)} />
+        <Pricing onSelectPlan={(plan) => handleOpenBooking('', plan)} />
         <Gallery />
-        <Contact />
+        <Testimonials />
+        <FAQ onOpenBooking={() => handleOpenBooking()} />
+        <Contact onOpenBooking={() => handleOpenBooking()} />
       </main>
-      <Footer />
+
+      <Footer onOpenBooking={() => handleOpenBooking()} />
+
+      {/* Mobile Floating Action Bar */}
+      <FloatingBar
+        onOpenBooking={() => handleOpenBooking()}
+        isModalOpen={bookingModalOpen}
+      />
+
+      {/* Global Interactive Booking Wizard Modal */}
+      <BookingModal
+        isOpen={bookingModalOpen}
+        onClose={handleCloseBooking}
+        initialClass={bookingInitialClass}
+        initialPlan={bookingInitialPlan}
+        initialDay={bookingInitialDay}
+      />
     </div>
   )
 }

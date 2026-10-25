@@ -1,101 +1,147 @@
-import { useState } from 'react'
-import { X, ZoomIn } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { X, ZoomIn, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react'
 import './Gallery.css'
 
-// Using the generated local images plus Unsplash for variety
+const categories = ['All', 'Studio Batches', 'Performances', 'Kids Fun', 'Fitness']
+
 const galleryItems = [
   {
     id: 1,
     src: '/images/gallery_group.jpg',
     alt: 'Group dance practice session at Rhythm Vibes',
-    caption: 'Group Practice',
+    caption: 'Group Choreography Rehearsal',
+    category: 'Studio Batches',
     size: 'wide',
   },
   {
     id: 2,
     src: '/images/gallery_solo.jpg',
     alt: 'Solo contemporary dance performance',
-    caption: 'Solo Performance',
+    caption: 'Solo Contemporary Showcase',
+    category: 'Performances',
     size: 'tall',
   },
   {
     id: 3,
     src: '/images/bollywood.jpg',
     alt: 'Bollywood dance class in full swing',
-    caption: 'Bollywood Class',
+    caption: 'Bollywood Commercial Batch',
+    category: 'Studio Batches',
     size: 'normal',
   },
   {
     id: 4,
     src: '/images/hiphop.jpg',
     alt: 'Hip-Hop freestyle session',
-    caption: 'Hip-Hop Freestyle',
+    caption: 'Hip-Hop Battle & Cypher',
+    category: 'Performances',
     size: 'normal',
   },
   {
     id: 5,
     src: '/images/contemporary.jpg',
     alt: 'Contemporary dance expression',
-    caption: 'Contemporary Flow',
+    caption: 'Lyrical Flow & Floorwork',
+    category: 'Studio Batches',
     size: 'tall',
   },
   {
     id: 6,
     src: '/images/kids.jpg',
     alt: 'Kids dance class having fun',
-    caption: 'Kids Class Fun',
+    caption: 'Kids Academy Saturday Batch',
+    category: 'Kids Fun',
     size: 'wide',
   },
   {
     id: 7,
     src: '/images/wedding.jpg',
     alt: 'Wedding choreography rehearsal',
-    caption: 'Wedding Choreography',
+    caption: 'Wedding Sangeet First Dance',
+    category: 'Performances',
     size: 'normal',
   },
   {
     id: 8,
     src: '/images/fitness.jpg',
     alt: 'Dance fitness class energetic workout',
-    caption: 'Dance Fitness',
+    caption: 'High-Energy Dance Cardio',
+    category: 'Fitness',
     size: 'normal',
   },
   {
     id: 9,
     src: '/images/about.jpg',
     alt: 'Studio full-group class',
-    caption: 'Studio Session',
+    caption: 'End-of-Term Studio Showcase',
+    category: 'Performances',
     size: 'wide',
   },
 ]
 
 export default function Gallery() {
+  const [activeCategory, setActiveCategory] = useState('All')
   const [lightbox, setLightbox] = useState(null)
+
+  const filteredItems =
+    activeCategory === 'All'
+      ? galleryItems
+      : galleryItems.filter((item) => item.category === activeCategory)
 
   const openLightbox = (item) => setLightbox(item)
   const closeLightbox = () => setLightbox(null)
 
   const navigate = (dir) => {
-    const idx = galleryItems.findIndex(i => i.id === lightbox.id)
-    const next = (idx + dir + galleryItems.length) % galleryItems.length
-    setLightbox(galleryItems[next])
+    const list = filteredItems
+    const idx = list.findIndex((i) => i.id === lightbox.id)
+    const next = (idx + dir + list.length) % list.length
+    setLightbox(list[next])
   }
+
+  // Keyboard controls
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!lightbox) return
+      if (e.key === 'Escape') closeLightbox()
+      if (e.key === 'ArrowRight') navigate(1)
+      if (e.key === 'ArrowLeft') navigate(-1)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [lightbox, filteredItems])
 
   return (
     <section id="gallery" className="gallery section" aria-label="Photo gallery">
       <div className="container">
         <div className="section-header fade-up">
-          <span className="section-label">Our Moments</span>
-          <h2 className="section-title">Photo Gallery</h2>
+          <span className="section-label">
+            <Sparkles size={13} /> Studio Life & Stages
+          </span>
+          <h2 className="section-title">Moments in Motion</h2>
           <p className="section-subtitle">
-            A glimpse into our vibrant studio life — rehearsals, performances, and celebrations.
+            A glimpse into our vibrant rehearsals, annual stage showcases, student cyphers, and celebratory milestones.
           </p>
+
+          {/* Filter Bar */}
+          <div className="gallery__filters">
+            {categories.map((cat) => (
+              <button
+                type="button"
+                key={cat}
+                className={`gallery__filter-btn ${activeCategory === cat ? 'gallery__filter-btn--active' : ''}`}
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Masonry-style grid */}
+        {/* Masonry Grid */}
         <div className="gallery__grid" role="list" aria-label="Gallery images">
-          {galleryItems.map((item, i) => (
+          {filteredItems.map((item, i) => (
             <button
+              type="button"
               key={item.id}
               className={`gallery__item gallery__item--${item.size} fade-up fade-up-delay-${(i % 4) + 1}`}
               onClick={() => openLightbox(item)}
@@ -110,8 +156,10 @@ export default function Gallery() {
               />
               <div className="gallery__overlay">
                 <div className="gallery__overlay-content">
-                  <ZoomIn size={24} />
-                  <span>{item.caption}</span>
+                  <div className="gallery__zoom-badge">
+                    <ZoomIn size={18} />
+                  </div>
+                  <span className="gallery__caption-text">{item.caption}</span>
                 </div>
               </div>
             </button>
@@ -133,20 +181,26 @@ export default function Gallery() {
               <X size={22} />
             </button>
             <button
+              type="button"
               className="lightbox__nav lightbox__nav--prev"
               onClick={() => navigate(-1)}
               aria-label="Previous image"
-            >‹</button>
+            >
+              <ChevronLeft size={26} />
+            </button>
             <img
               src={lightbox.src}
               alt={lightbox.alt}
               className="lightbox__img"
             />
             <button
+              type="button"
               className="lightbox__nav lightbox__nav--next"
               onClick={() => navigate(1)}
               aria-label="Next image"
-            >›</button>
+            >
+              <ChevronRight size={26} />
+            </button>
             <p className="lightbox__caption">{lightbox.caption}</p>
           </div>
         </div>

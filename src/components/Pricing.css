@@ -1,0 +1,304 @@
+/* =========================================================
+   PRICING & MEMBERSHIP STYLES (Rich Crimson Theme)
+   ========================================================= */
+
+.pricing {
+  background: var(--clr-bg);
+}
+
+.pricing__toggle-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1.5rem;
+}
+
+.pricing__toggle-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--clr-white-40);
+  transition: var(--trans-fast);
+}
+
+.pricing__toggle-label.active {
+  color: var(--clr-white);
+}
+
+.pricing__switch {
+  width: 48px;
+  height: 26px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.15);
+  position: relative;
+  transition: var(--trans-smooth);
+}
+
+.pricing__switch--on {
+  background: var(--clr-crimson);
+}
+
+.pricing__switch-handle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: var(--trans-smooth);
+}
+
+.pricing__switch--on .pricing__switch-handle {
+  transform: translateX(22px);
+}
+
+.pricing__save-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  margin-left: 4px;
+}
+
+/* Grid */
+.pricing__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.pricing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  background: rgba(24, 23, 32, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: var(--trans-smooth);
+}
+
+.pricing-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(225, 29, 72, 0.4);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(225, 29, 72, 0.2);
+}
+
+.pricing-card--popular {
+  border-color: var(--clr-crimson) !important;
+  background: linear-gradient(180deg, rgba(38, 22, 32, 0.9) 0%, rgba(20, 19, 28, 0.95) 100%) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 35px rgba(225, 29, 72, 0.25);
+  transform: scale(1.02);
+}
+
+.pricing-card--popular:hover {
+  transform: scale(1.02) translateY(-6px);
+}
+
+.pricing-card__popular-badge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--clr-gradient);
+  color: var(--clr-white);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 15px rgba(225, 29, 72, 0.45);
+}
+
+.pricing-card__sub-badge {
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--clr-rose-pearl);
+  background: rgba(251, 113, 133, 0.12);
+  border: 1px solid rgba(251, 113, 133, 0.25);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.75rem;
+}
+
+.pricing-card__header {
+  margin-bottom: 1.25rem;
+}
+
+.pricing-card__name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--clr-white);
+  margin-bottom: 0.35rem;
+}
+
+.pricing-card__tagline {
+  font-size: 0.82rem;
+  color: var(--clr-white-70);
+  line-height: 1.4;
+  min-height: 38px;
+}
+
+.pricing-card__price-box {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  margin-bottom: 0.5rem;
+}
+
+.pricing-card__currency {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--clr-rose-pearl);
+}
+
+.pricing-card__amount {
+  font-size: 2.3rem;
+  font-weight: 900;
+  color: var(--clr-white);
+  font-family: var(--ff-heading);
+}
+
+.pricing-card__unit {
+  font-size: 0.82rem;
+  color: var(--clr-white-40);
+  margin-left: 2px;
+}
+
+.pricing-card__billed-note {
+  font-size: 0.75rem;
+  color: #10b981;
+  margin-bottom: 1rem;
+}
+
+.pricing-card__features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-block: 1.25rem auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pricing-card__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--clr-white-70);
+  line-height: 1.4;
+}
+
+.pricing-card__check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(225, 29, 72, 0.15);
+  color: var(--clr-rose);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pricing-card__btn {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+/* Custom Wedding Banner */
+.pricing__custom-banner {
+  margin-bottom: 2rem;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, rgba(38, 22, 34, 0.8) 0%, rgba(20, 19, 28, 0.9) 100%);
+  border: 1px solid rgba(251, 113, 133, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.pricing__custom-title {
+  font-size: 1.4rem;
+  color: var(--clr-white);
+  margin-top: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.pricing__custom-desc {
+  font-size: 0.92rem;
+  color: var(--clr-white-70);
+  max-width: 650px;
+}
+
+/* Guarantees */
+.pricing__guarantees {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+}
+
+.pricing__guarantee {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.86rem;
+  color: var(--clr-white-70);
+}
+
+.guarantee-icon {
+  color: var(--clr-rose);
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .pricing__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pricing-card--popular {
+    transform: none;
+  }
+  .pricing-card--popular:hover {
+    transform: translateY(-6px);
+  }
+}
+
+@media (max-width: 768px) {
+  .pricing__custom-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  .pricing__custom-desc {
+    margin-inline: auto;
+  }
+  .pricing__guarantees {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 580px) {
+  .pricing__grid {
+    grid-template-columns: 1fr;
+  }
+}

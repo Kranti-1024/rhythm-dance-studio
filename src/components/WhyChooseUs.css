@@ -1,4 +1,4 @@
-/* ===== Why Choose Us ===== */
+/* ===== Why Choose Us (Rich Crimson Theme) ===== */
 .why {
   background: var(--clr-bg);
   position: relative;
@@ -9,67 +9,80 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 15% 50%, rgba(155, 93, 229, 0.07), transparent),
-    radial-gradient(ellipse 60% 50% at 85% 50%, rgba(247, 37, 133, 0.06), transparent);
+    radial-gradient(ellipse 60% 50% at 15% 50%, rgba(225, 29, 72, 0.08), transparent),
+    radial-gradient(ellipse 60% 50% at 85% 50%, rgba(251, 113, 133, 0.06), transparent);
   pointer-events: none;
 }
 
 .why__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--sp-5);
+  gap: 1.5rem;
 }
 
 /* Card */
 .why-card {
-  padding: var(--sp-8) var(--sp-6);
+  padding: 2rem 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
+  gap: 1rem;
+  background: rgba(24, 23, 32, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  transition: var(--trans-smooth);
+}
+
+.why-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(225, 29, 72, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(225, 29, 72, 0.18);
 }
 
 .why-card__icon {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-lg);
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: var(--trans-smooth);
 }
 
-.why-card__icon--purple {
-  background: rgba(155, 93, 229, 0.12);
-  color: var(--clr-purple-light);
-  border: 1px solid rgba(155, 93, 229, 0.25);
+.why-card__icon--crimson {
+  background: rgba(225, 29, 72, 0.14);
+  color: var(--clr-rose-pearl);
+  border: 1px solid rgba(225, 29, 72, 0.3);
 }
 
-.why-card__icon--pink {
-  background: rgba(247, 37, 133, 0.1);
-  color: var(--clr-pink-light);
-  border: 1px solid rgba(247, 37, 133, 0.2);
+.why-card__icon--rose {
+  background: rgba(251, 113, 133, 0.12);
+  color: #fecdd3;
+  border: 1px solid rgba(251, 113, 133, 0.28);
 }
 
-.why-card:hover .why-card__icon--purple {
-  background: rgba(155, 93, 229, 0.22);
-  box-shadow: 0 0 20px rgba(155, 93, 229, 0.3);
+.why-card:hover .why-card__icon--crimson {
+  background: var(--clr-crimson);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(225, 29, 72, 0.45);
 }
 
-.why-card:hover .why-card__icon--pink {
-  background: rgba(247, 37, 133, 0.18);
-  box-shadow: 0 0 20px rgba(247, 37, 133, 0.25);
+.why-card:hover .why-card__icon--rose {
+  background: var(--clr-rose);
+  color: #171622;
+  box-shadow: 0 0 20px rgba(251, 113, 133, 0.4);
 }
 
 .why-card__title {
-  font-size: var(--fs-lg);
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--clr-white);
+  line-height: 1.25;
 }
 
 .why-card__desc {
-  font-size: var(--fs-sm);
+  font-size: 0.88rem;
   color: var(--clr-white-70);
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 /* Responsive */
@@ -79,5 +92,5 @@
 
 @media (max-width: 640px) {
   .why__grid { grid-template-columns: 1fr; }
-  .why-card  { padding: var(--sp-6) var(--sp-5); }
+  .why-card  { padding: 1.5rem 1.25rem; }
 }
