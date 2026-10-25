@@ -1,0 +1,186 @@
+/* ===== Gallery ===== */
+.gallery {
+  background: var(--clr-bg);
+}
+
+/* CSS Grid masonry-style layout */
+.gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 200px;
+  gap: var(--sp-4);
+}
+
+/* Size variants */
+.gallery__item--normal { grid-column: span 1; grid-row: span 1; }
+.gallery__item--wide   { grid-column: span 2; grid-row: span 1; }
+.gallery__item--tall   { grid-column: span 1; grid-row: span 2; }
+
+/* Item base */
+.gallery__item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--clr-border);
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery__item:hover .gallery__img,
+.gallery__item:focus-visible .gallery__img {
+  transform: scale(1.08);
+}
+
+/* Overlay */
+.gallery__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 0.85) 0%,
+    rgba(10, 10, 10, 0.2) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: var(--sp-4);
+}
+
+.gallery__item:hover .gallery__overlay,
+.gallery__item:focus-visible .gallery__overlay {
+  opacity: 1;
+}
+
+.gallery__overlay-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--clr-white);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4);
+  animation: lb-fade-in 0.2s ease;
+}
+
+@keyframes lb-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.lightbox__inner {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox__img {
+  width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.lightbox__close {
+  position: absolute;
+  top: calc(-1 * var(--sp-12));
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--clr-border);
+  color: var(--clr-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--trans-fast);
+}
+
+.lightbox__close:hover { background: rgba(247, 37, 133, 0.4); }
+
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: var(--clr-white);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--clr-border);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--trans-fast);
+  line-height: 1;
+}
+
+.lightbox__nav:hover { background: rgba(155, 93, 229, 0.4); }
+.lightbox__nav--prev { left: calc(-1 * var(--sp-16)); }
+.lightbox__nav--next { right: calc(-1 * var(--sp-16)); }
+
+.lightbox__caption {
+  margin-top: var(--sp-4);
+  font-size: var(--fs-sm);
+  color: var(--clr-white-70);
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .gallery__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 180px;
+  }
+  .gallery__item--wide { grid-column: span 2; }
+  .gallery__item--tall { grid-row: span 2; }
+  .lightbox__nav--prev { left: 0; }
+  .lightbox__nav--next { right: 0; }
+}
+
+@media (max-width: 480px) {
+  .gallery__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 150px;
+  }
+  .gallery__item--wide { grid-column: span 2; }
+  .gallery__item--tall { grid-row: span 1; }
+}

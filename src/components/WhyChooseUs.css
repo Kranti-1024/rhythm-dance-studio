@@ -1,0 +1,83 @@
+/* ===== Why Choose Us ===== */
+.why {
+  background: var(--clr-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.why__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 50%, rgba(155, 93, 229, 0.07), transparent),
+    radial-gradient(ellipse 60% 50% at 85% 50%, rgba(247, 37, 133, 0.06), transparent);
+  pointer-events: none;
+}
+
+.why__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-5);
+}
+
+/* Card */
+.why-card {
+  padding: var(--sp-8) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.why-card__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--trans-smooth);
+}
+
+.why-card__icon--purple {
+  background: rgba(155, 93, 229, 0.12);
+  color: var(--clr-purple-light);
+  border: 1px solid rgba(155, 93, 229, 0.25);
+}
+
+.why-card__icon--pink {
+  background: rgba(247, 37, 133, 0.1);
+  color: var(--clr-pink-light);
+  border: 1px solid rgba(247, 37, 133, 0.2);
+}
+
+.why-card:hover .why-card__icon--purple {
+  background: rgba(155, 93, 229, 0.22);
+  box-shadow: 0 0 20px rgba(155, 93, 229, 0.3);
+}
+
+.why-card:hover .why-card__icon--pink {
+  background: rgba(247, 37, 133, 0.18);
+  box-shadow: 0 0 20px rgba(247, 37, 133, 0.25);
+}
+
+.why-card__title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--clr-white);
+}
+
+.why-card__desc {
+  font-size: var(--fs-sm);
+  color: var(--clr-white-70);
+  line-height: 1.8;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .why__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .why__grid { grid-template-columns: 1fr; }
+  .why-card  { padding: var(--sp-6) var(--sp-5); }
+}
