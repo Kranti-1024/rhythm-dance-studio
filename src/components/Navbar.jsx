@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { Menu, X, Flame, Sparkles } from 'lucide-react'
 import './Navbar.css'
 
@@ -19,6 +20,7 @@ export default function Navbar({ onOpenBooking }) {
   const [menuOpen, setMenuOpen]     = useState(false)
   const [activeLink, setActiveLink] = useState('#home')
   const menuRef = useRef(null)
+  const hamburgerRef = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30)
@@ -26,21 +28,47 @@ export default function Navbar({ onOpenBooking }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close menu on outside click
+  // Close menu on outside click or Escape key
   useEffect(() => {
-    const handleClickOutside = (e) => {
+    const handlePointerDown = (e) => {
+      // If click originated from the hamburger button itself, let the button's onClick handle it
+      if (hamburgerRef.current && hamburgerRef.current.contains(e.target)) {
+        return
+      }
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setMenuOpen(false)
       }
     }
-    if (menuOpen) document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false)
+      }
+    }
+
+    if (menuOpen) {
+      document.addEventListener('pointerdown', handlePointerDown)
+      document.addEventListener('keydown', handleKeyDown)
+    }
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
   }, [menuOpen])
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+      document.body.style.touchAction = 'none'
+    } else {
+      document.body.style.overflow = ''
+      document.body.style.touchAction = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.body.style.touchAction = ''
+    }
   }, [menuOpen])
 
   // Track active section on scroll
@@ -114,12 +142,17 @@ export default function Navbar({ onOpenBooking }) {
             aria-label="Book a free dance trial pass"
           >
             <Sparkles size={15} />
-            <span>Book Free Trial</span>
+            <span className="navbar__cta-text-full">Book Free Trial</span>
+            <span className="navbar__cta-text-mobile">Book Trial</span>
           </button>
           <button
+            ref={hamburgerRef}
             type="button"
             className="navbar__hamburger"
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={(e) => {
+              e.stopPropagation()
+              setMenuOpen((prev) => !prev)
+            }}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
@@ -129,59 +162,92 @@ export default function Navbar({ onOpenBooking }) {
         </div>
       </div>
 
-      {/* Mobile Overlay */}
-      <div
-        className={`navbar__overlay ${menuOpen ? 'navbar__overlay--open' : ''}`}
-        aria-hidden={!menuOpen}
-        onClick={() => setMenuOpen(false)}
-      />
+      {/* Portal Mobile Overlay & Drawer to document.body so containing block is always full viewport */}
+      {typeof document !== 'undefined' &&
+        createPortal(
+          <>
+            {/* Mobile Overlay */}
+            <div
+              className={`navbar__overlay ${menuOpen ? 'navbar__overlay--open' : ''}`}
+              aria-hidden={!menuOpen}
+              onClick={() => setMenuOpen(false)}
+            />
 
-      {/* Mobile Menu */}
-      <div
-        id="mobile-menu"
-        ref={menuRef}
-        className={`navbar__mobile ${menuOpen ? 'navbar__mobile--open' : ''}`}
-        role="dialog"
-        aria-label="Mobile navigation menu"
-        aria-modal="true"
-      >
-        <div className="navbar__mobile-header">
-          <span className="navbar__logo-main">Rhythm Vibes</span>
-          <button
-            className="navbar__close-btn"
-            onClick={() => setMenuOpen(false)}
-            aria-label="Close menu"
-          >
-            <X size={22} />
-          </button>
-        </div>
-
-        <nav className="navbar__mobile-links" aria-label="Mobile navigation">
-          {navLinks.map(({ label, href }) => (
-            <a
-              key={href}
-              href={href}
-              className={`navbar__mobile-link ${activeLink === href ? 'navbar__mobile-link--active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault()
-                handleNavClick(href)
-              }}
+            {/* Mobile Menu Drawer (Side Panel) */}
+            <aside
+              id="mobile-menu"
+              ref={menuRef}
+              className={`navbar__mobile ${menuOpen ? 'navbar__mobile--open' : ''}`}
+              role="dialog"
+              aria-label="Mobile navigation menu"
+              aria-modal="true"
             >
-              {label}
-            </a>
-          ))}
-          <button
-            type="button"
-            className="btn btn-primary btn-lg navbar__mobile-cta"
-            onClick={() => {
-              setMenuOpen(false)
-              if (onOpenBooking) onOpenBooking()
-            }}
-          >
-            <Sparkles size={18} /> Book Free Trial Pass
-          </button>
-        </nav>
-      </div>
+              <div className="navbar__mobile-header">
+                <div className="navbar__mobile-brand">
+                  <span className="navbar__logo-icon">
+                    <Flame size={18} />
+                  </span>
+                  <div className="navbar__logo-text">
+                    <span className="navbar__logo-main">Rhythm Vibes</span>
+                    <span className="navbar__logo-sub">Dance Academy</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="navbar__close-btn"
+                  onClick={() => setMenuOpen(false)}
+                  aria-label="Close menu"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <nav className="navbar__mobile-links" aria-label="Mobile navigation">
+                {navLinks.map(({ label, href }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    className={`navbar__mobile-link ${activeLink === href ? 'navbar__mobile-link--active' : ''}`}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleNavClick(href)
+                    }}
+                  >
+                    <span>{label}</span>
+                    {activeLink === href && <span className="navbar__mobile-pill">Current</span>}
+                  </a>
+                ))}
+              </nav>
+
+              <div className="navbar__mobile-footer">
+                <button
+                  type="button"
+                  className="btn btn-primary btn-lg navbar__mobile-cta"
+                  onClick={() => {
+                    setMenuOpen(false)
+                    if (onOpenBooking) onOpenBooking()
+                  }}
+                >
+                  <Sparkles size={18} /> Book Free Trial Pass
+                </button>
+                <div className="navbar__mobile-contact-row">
+                  <a href="tel:+919876543210" className="mobile-contact-pill">
+                    📞 Call Studio
+                  </a>
+                  <a
+                    href="https://wa.me/919876543210?text=Hi%20Rhythm%20Vibes!%20I%20would%20like%20to%20inquire%20about%20classes"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mobile-contact-pill mobile-contact-pill--wa"
+                  >
+                    💬 WhatsApp
+                  </a>
+                </div>
+              </div>
+            </aside>
+          </>,
+          document.body
+        )}
     </header>
   )
 }

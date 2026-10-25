@@ -245,6 +245,12 @@
   }
 }
 
+@media (max-width: 768px) {
+  .footer__bottom {
+    padding-bottom: calc(var(--sp-5) + 66px);
+  }
+}
+
 @media (max-width: 640px) {
   .footer__grid {
     grid-template-columns: 1fr;

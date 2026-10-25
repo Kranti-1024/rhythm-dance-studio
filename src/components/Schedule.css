@@ -322,14 +322,6 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .sched-day-tabs {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .sched-day-tab:nth-child(5),
-  .sched-day-tab:nth-child(6),
-  .sched-day-tab:nth-child(7) {
-    grid-column: span 1;
-  }
   .sched-card {
     flex-direction: column;
     align-items: flex-start;
@@ -350,13 +342,23 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 680px) {
   .sched-day-tabs {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 6px;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+  .sched-day-tabs::-webkit-scrollbar {
+    display: none;
   }
   .sched-day-tab {
-    padding: 0.6rem 0.3rem;
+    flex: 0 0 74px;
+    scroll-snap-align: start;
+    padding: 0.65rem 0.35rem;
   }
   .sched-day-full {
     display: none;
